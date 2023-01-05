@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview Editor</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github-dark.css">
+  <style>
+    .hljs-ln-n {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <textarea></textarea>
+  </div>
+
+  <div id="content" class="code"></div>
+  <button>Copy</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src= "https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+  <script>
+    marked.setOptions({
+      renderer: new marked.Renderer(),
+      highlight: function(code, lang) {
+        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+        // code = hljs.lineNumbersBlock(code)
+        return hljs.highlight(code, { language }).value; 
+      },
+      langPrefix: 'hljs language-', // highlight.js css expects a top-level 'hljs' class.
+      pedantic: false,
+      gfm: true,
+      breaks: false,
+      sanitize: false,
+      smartypants: false,
+      xhtml: false
+    })
+
+    const progrma = "js"
+    let code = `console.log("hi")\ncode.log("h2")`
+    const program = "js"
+    const compile = marked.parse("```" + program + "\n" + code + "\n")
+
+    document.getElementById('content').innerHTML = compile
+    
+    $('code.hljs').each(function(i, block) {
+      hljs.lineNumbersBlock(block, { startFrom: 1})
+    })
+  </script>
+</body>
+</html>
