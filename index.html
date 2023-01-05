@@ -7,18 +7,137 @@
   <title>Preview Editor</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github-dark.css">
   <style>
+    body {
+      background-color: black;
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      color: white;
+    }
+
+    code {
+      border-radius: 5px;
+      font-size: 1.2rem;
+      box-sizing: border-box;
+    }
+
+    .code {
+      display: inline-block;
+    }
+
     .hljs-ln-n {
       margin-right: 10px;
     }
+
+    textarea {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      outline: none;
+      appearance: none;
+      border: none;
+      border-radius: 5px;
+      height: 30vh;
+      font-size: 1.2rem;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .block {
+      margin: 0 auto;
+      width: 60%;
+    }
+
+    .block p {
+      font-size: 1.5rem;
+      color: white;
+    }
+    
+    .block__code {
+      height: 30vh;
+      box-sizing: border-box;
+      background-color: #0d1117;
+      border-radius: 5px;
+    }
+
+    .block__btn {
+      box-sizing: border-box;
+      border: none;
+      background-color: #0a0a23;
+      color: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 10px;
+      min-width: 120px;
+      font-size: 1rem;
+    }
+
+    @media (min-width:320px)  { 
+      .container {
+        display: block;
+        width: 90vw;
+        margin: 0 auto;
+      }
+
+      .block {
+        width: 100%;
+      }
+
+      .block__code {
+        min-width: 100%;
+        overflow: scroll;
+      }
+
+      .block__btn {
+        display: block;
+        margin: 10px auto;
+      }
+    } 
+    @media (min-width:480px)  { 
+      /* smartphones, Android phones, landscape iPhone */ 
+      .container {
+        display: block;
+      }
+
+      .block__btn {
+        display: inline;
+        margin: 10px auto;
+      }
+    }
+    @media (min-width:600px)  { /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */ }
+    @media (min-width:801px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
+    @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
+    @media (min-width:1281px) {
+       /* hi-res laptops and desktops */
+      .container {
+        display: flex;
+        width: 80%;
+      }
+     }
   </style>
 </head>
 <body>
-  <div>
-    <textarea></textarea>
-  </div>
+  <h1>Code Editor</h1>
+  <div class="container">
+    <div class="block">
+      <p>Edit</p>
+      <textarea id="input" oninput="onTextInput()"></textarea>
+    </div>
 
-  <div id="content" class="code"></div>
-  <button>Copy</button>
+    <div class="block">
+      <p>Preview</p>
+      <div class="block__code">
+        <div id="content" class="code"></div>
+      </div>
+      <button class="block__btn" onclick="onCopy()">Copy</button>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -52,6 +171,24 @@
     $('code.hljs').each(function(i, block) {
       hljs.lineNumbersBlock(block, { startFrom: 1})
     })
+
+    function onTextInput() {
+      const textarea = document.getElementById('input')
+      const program = 'js'
+      const code = textarea.value
+
+      const val = marked.parse("```" + program + "\n" + code + "\n```")
+
+      document.getElementById('content').innerHTML = val
+      $('code.hljs').each(function(i, block) {
+        hljs.lineNumbersBlock(block, { startFrom: 1})
+      })
+    }
+
+    function onCopy() {
+      html2canvas(document.getElementById('content')).then(canvas => {
+        canvas.toBlob(blob => navigator.clipboard.write([new ClipboardItem({'image/png': blob})]))})
+      }
   </script>
 </body>
 </html>
