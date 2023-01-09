@@ -144,7 +144,7 @@
       <button class="block__btn" onclick="onCopy()">Copy</button>
     </div>
 
-    <div id="editor"></div>
+    <!-- <div id="editor"></div> -->
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -155,13 +155,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
   <script>
-    var editor = ace.edit('editor')
-    editor.setTheme("ace/theme/monokai");
-    editor.setKeyboardHandler('ace/keyboard/vim')
-    editor.session.setMode("ace/mode/javascript");
-    editor.getSession().on('change', function() {
-      console.log(editor.getSession().getValue())
-    })
+    // var editor = ace.edit('editor')
+    // editor.setTheme("ace/theme/monokai");
+    // editor.setKeyboardHandler('ace/keyboard/vim')
+    // editor.session.setMode("ace/mode/javascript");
+    // editor.getSession().on('change', function() {
+    //   console.log(editor.getSession().getValue())
+    // })
 
     marked.setOptions({
       renderer: new marked.Renderer(),
